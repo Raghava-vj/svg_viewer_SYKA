@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Viewer</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f4f4;
+        }
+        header {
+            background: linear-gradient(90deg, #3a8dde 0%, #005fa3 100%);
+            color: #fff;
+            padding: 0 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .header-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .logo svg {
+            height: 32px;
+            width: 32px;
+            margin-right: 10px;
+        }
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.08em;
+            transition: color 0.2s;
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+        nav a:hover {
+            background: rgba(255,255,255,0.13);
+        }
+        .signup-btn {
+            margin-left: 24px;
+            background: #fff;
+            color: #005fa3;
+            border: none;
+            padding: 7px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            transition: background 0.2s, color 0.2s;
+        }
+        .signup-btn:hover {
+            background: #e3f0ff;
+            color: #003d6b;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+            padding: 32px 28px 28px 28px;
+        }
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .controls label {
+            font-weight: bold;
+        }
+        #svgDisplay {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f6fa;
+            border: 1px solid #c6d6e6;
+            min-height: 400px;
+            min-width: 100%;
+            overflow: auto;
+            border-radius: 8px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            font-family: monospace;
+            font-size: 1em;
+            margin-bottom: 10px;
+            resize: vertical;
+            border-radius: 6px;
+            border: 1px solid #c6d6e6;
+            background: #f7fbff;
+            padding: 8px;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        .custom-file-upload {
+            border: 1px solid #c6d6e6;
+            display: inline-block;
+            padding: 6px 14px;
+            cursor: pointer;
+            border-radius: 6px;
+            background: #eaf4fd;
+            color: #005fa3;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .custom-file-upload:hover {
+            background: #d2e8fc;
+        }
+        .zoom-controls button {
+            margin: 0 2px;
+            padding: 6px 12px;
+            font-size: 1em;
+            border-radius: 4px;
+            border: 1px solid #b0c7e6;
+            background: #f7fbff;
+            color: #005fa3;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .zoom-controls button:active,
+        .zoom-controls button:hover {
+            background: #e3f0ff;
+        }
+        #downloadBtn {
+            background: #3a8dde;
+            color: #fff;
+            border: none;
+            padding: 7px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+            transition: background 0.2s;
+        }
+        #downloadBtn:hover {
+            background: #005fa3;
+        }
+        footer {
+            background: #003d6b;
+            color: #fff;
+            text-align: center;
+            padding: 18px 0 14px 0;
+            margin-top: 48px;
+            font-size: 1.05em;
+            letter-spacing: 0.5px;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 8px; }
+            .controls { flex-direction: column; gap: 8px; }
+            .header-content { flex-direction: column; height: auto; padding: 10px 0; }
+            nav { gap: 14px; margin-top: 8px; }
+            .signup-btn { margin-left: 0; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <!-- Simple SVG logo -->
+                <svg viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="16" r="15" fill="#fff" stroke="#005fa3" stroke-width="2"/>
+                    <path d="M10 22L16 10L22 22Z" fill="#3a8dde"/>
+                </svg>
+                SVG Viewer
+            </div>
+            <nav>
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <button class="signup-btn">Sign Up</button>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <h2 style="color:#005fa3; margin-top:0; letter-spacing:1px;">SVG Viewer</h2>
+        <div class="controls">
+            <label class="custom-file-upload">
+                <input type="file" id="fileInput" accept=".svg,image/svg+xml">
+                Upload SVG
+            </label>
+            <span>or paste SVG code below:</span>
+            <div class="zoom-controls">
+                <button id="zoomIn">+</button>
+                <button id="zoomOut">-</button>
+                <button id="resetZoom">Reset</button>
+            </div>
+            <button id="downloadBtn">Download SVG</button>
+        </div>
+        <textarea id="svgInput" placeholder="Paste SVG code here..."></textarea>
+        <div id="svgDisplay"></div>
+    </div>
+    <footer>
+        &copy; 2024 SVG Viewer. Designed by SYKA
+        <br>
+        <img src="" alt="">
+    </footer>
+    <script>
+        const svgInput = document.getElementById('svgInput');
+        const svgDisplay = document.getElementById('svgDisplay');
+        const fileInput = document.getElementById('fileInput');
+        const zoomInBtn = document.getElementById('zoomIn');
+        const zoomOutBtn = document.getElementById('zoomOut');
+        const resetZoomBtn = document.getElementById('resetZoom');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let currentScale = 1;
+
+        function renderSVG(svgText) {
+            svgDisplay.innerHTML = '';
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(svgText, "image/svg+xml");
+                const svgElem = doc.querySelector('svg');
+                if (!svgElem) throw new Error("No SVG found");
+                svgElem.removeAttribute('width');
+                svgElem.removeAttribute('height');
+                svgElem.style.maxWidth = '100%';
+                svgElem.style.maxHeight = '100%';
+                svgElem.style.transform = `scale(${currentScale})`;
+                svgElem.style.transformOrigin = 'center center';
+                svgElem.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+                svgDisplay.appendChild(svgElem);
+            } catch (e) {
+                svgDisplay.innerHTML = '<span style="color:red;">Invalid SVG</span>';
+            }
+        }
+
+        svgInput.addEventListener('input', () => {
+            currentScale = 1;
+            renderSVG(svgInput.value);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                svgInput.value = evt.target.result;
+                currentScale = 1;
+                renderSVG(svgInput.value);
+            };
+            reader.readAsText(file);
+        });
+
+        zoomInBtn.addEventListener('click', () => {
+            currentScale *= 1.2;
+            renderSVG(svgInput.value);
+        });
+
+        zoomOutBtn.addEventListener('click', () => {
+            currentScale /= 1.2;
+            renderSVG(svgInput.value);
+        });
+
+        resetZoomBtn.addEventListener('click', () => {
+            currentScale = 1;
+            renderSVG(svgInput.value);
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const svgText = svgInput.value.trim();
+            if (!svgText) return;
+            const blob = new Blob([svgText], {type: "image/svg+xml"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'download.svg';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Initial render if textarea has content
+        if (svgInput.value.trim()) {
+            renderSVG(svgInput.value);
+        }
+    </script>
+</body>
+</html>
