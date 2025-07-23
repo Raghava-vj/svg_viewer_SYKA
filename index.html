@@ -14,6 +14,10 @@
             color: #fff;
             padding: 0 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            
         }
         .header-content {
             max-width: 1100px;
@@ -21,7 +25,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 64px;
+            height: 100px;
         }
         .logo {
             display: flex;
@@ -189,12 +193,46 @@
             </div>
             <nav>
                 <a href="#">Home</a>
-                <a href="#">About</a>
+                <a href="#about">Features</a>
                 <a href="#">Contact</a>
                 <button class="signup-btn">Sign Up</button>
             </nav>
         </div>
     </header>
+
+    <section style="text-align: center; margin: 48px 0 32px 0;">
+        <h1 style="color: #005fa3; font-size: 2.7em; margin-bottom: 12px; letter-spacing: 1px; font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;">
+            View Finder
+        </h1>
+        <h2 style="color: #005fa3; font-size: 2em; margin-bottom: 12px; letter-spacing: 1px; font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;">
+            A Product from <span style="font-size: 3rem; background: linear-gradient(90deg, #de633a 0%, #f7b42c 33%, #0674cf 66%, #3adede 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; color: transparent;">SYKA</span>
+        </h2>
+        
+
+        <p style="max-width: 400px; margin: 20px 20px ; color: #3a4a5d; font-size: 1.18em; line-height: 1.6; font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;"></p>
+            View Finder is a simple, modern SVG viewer that lets you instantly preview, zoom, and download SVG graphics. <br>
+            Whether you upload a file or paste SVG code, you get a live, interactive preview.
+        </p>
+        <div style="
+            display: inline-block;
+            text-align: left;
+            background: #eaf4fd;
+            border-radius: 10px;
+            padding: 22px 32px;
+            box-shadow: 0 3px 12px rgba(58,141,222,0.10);
+            font-size: 1.09em;
+            margin-top: 10px;
+            font-family: 'Open Sans', 'Segoe UI', Arial, sans-serif;
+        ">
+            <strong style="color: #005fa3; font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;">Instructions:</strong>
+            <ul style="margin: 12px 0 0 22px; padding: 0; color: #005fa3; line-height: 1.7; font-family: 'Open Sans', 'Segoe UI', Arial, sans-serif;">
+                <li>Upload an SVG file or paste SVG code in the box below.</li>
+                <li>Use the zoom controls to inspect details or reset the view.</li>
+                <li>Download your SVG with a single click.</li>
+            </ul>
+        </div>
+    </section>
+
     <div class="container">
         <h2 style="color:#005fa3; margin-top:0; letter-spacing:1px;">SVG Viewer</h2>
         <div class="controls">
@@ -209,10 +247,127 @@
                 <button id="resetZoom">Reset</button>
             </div>
             <button id="downloadBtn">Download SVG</button>
+            <span id="uploadStatus" style="margin-left:16px; color:#005fa3; font-weight:500; display:none; background: #e3f0ff; border-radius: 6px; padding: 4px 14px; box-shadow: 0 1px 4px rgba(58,141,222,0.10); transition: background 0.3s, color 0.3s;">Uploading...</span>
         </div>
         <textarea id="svgInput" placeholder="Paste SVG code here..."></textarea>
         <div id="svgDisplay"></div>
     </div>
+    <script>
+        // ...existing code...
+
+        const uploadStatus = document.getElementById('uploadStatus');
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            uploadStatus.style.display = 'inline';
+            uploadStatus.textContent = 'Uploading...';
+            uploadStatus.style.background = '#ffe066';
+            uploadStatus.style.color = '#b8860b';
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                svgInput.value = evt.target.result;
+                currentScale = 1;
+                renderSVG(svgInput.value);
+                uploadStatus.textContent = 'Upload complete!';
+                uploadStatus.style.background = '#d4edda';
+                uploadStatus.style.color = '#155724';
+                setTimeout(() => {
+                    uploadStatus.style.display = 'none';
+                    uploadStatus.style.background = '#e3f0ff';
+                    uploadStatus.style.color = '#005fa3';
+                }, 1200);
+            };
+            reader.onerror = function() {
+                uploadStatus.textContent = 'Upload failed!';
+                uploadStatus.style.background = '#f8d7da';
+                uploadStatus.style.color = '#721c24';
+                setTimeout(() => {
+                    uploadStatus.style.display = 'none';
+                    uploadStatus.style.background = '#e3f0ff';
+                    uploadStatus.style.color = '#005fa3';
+                }, 1500);
+            };
+            reader.readAsText(file);
+        });
+
+        // ...rest of existing code...
+    </script>
+
+    <div id="about">
+        <h1 style="color: red; display: flex; justify-content: center; font-size: 70px;">Features</h1>
+    </div>
+    
+    <div style="max-width:900px;margin:32px auto 0 auto;">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;">
+            <div class="svg-card">
+                <h3>Fast SVG Preview</h3>
+                <p>Instantly view your SVG files or code with real-time rendering and zoom controls.</p>
+            </div>
+            <div class="svg-card">
+                <h3>Easy Upload</h3>
+                <p>Upload SVG files directly or paste SVG markup for quick editing and visualization.</p>
+            </div>
+            <div class="svg-card">
+                <h3>Download Support</h3>
+                <p>Download your edited SVG with a single click for use in your projects.</p>
+            </div>
+            <div class="svg-card">
+                <h3>Responsive Design</h3>
+                <p>Enjoy a seamless experience on desktop and mobile devices with adaptive layout.</p>
+            </div>
+            <div class="svg-card">
+                <h3>Zoom & Reset</h3>
+                <p>Zoom in, zoom out, or reset the view to inspect SVG details easily.</p>
+            </div>
+            <div class="svg-card">
+                <h3>Modern UI</h3>
+                <p>Clean, modern interface with smooth animations for a delightful user experience.</p>
+            </div>
+        </div>
+    </div>
+    <style>
+        .svg-card {
+            background: #fff;
+            border: 1.5px solid #c6d6e6;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(58,141,222,0.07);
+            padding: 26px 20px 22px 20px;
+            transition: box-shadow 0.3s cubic-bezier(.4,2,.6,1), border-color 0.3s;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .svg-card h3 {
+            margin: 0 0 10px 0;
+            color: #005fa3;
+            font-size: 1.18em;
+            letter-spacing: 0.5px;
+        }
+        .svg-card p {
+            margin: 0;
+            color: #3a4a5d;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .svg-card:hover {
+            box-shadow: 0 8px 24px rgba(58,141,222,0.18), 0 2px 8px rgba(58,141,222,0.07);
+            border-color: #3a8dde;
+            cursor: pointer;
+            transform: translateY(-4px) scale(1.025);
+            transition: box-shadow 0.3s cubic-bezier(.4,2,.6,1), border-color 0.3s, transform 0.3s cubic-bezier(.4,2,.6,1);
+        }
+        @media (max-width:900px) {
+            .svg-card { min-height: 120px; }
+            div[style*="grid-template-columns"] { grid-template-columns:1fr 1fr; }
+        }
+        @media (max-width:600px) {
+            div[style*="grid-template-columns"] { grid-template-columns:1fr; gap:14px; }
+            .svg-card { padding: 16px 10px; }
+        }
+    </style>
+    
     <footer>
         &copy; 2024 SVG Viewer. Designed by SYKA
         <br>
